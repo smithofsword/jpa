@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Basic Input Output</title>
+    <style>
+        :root {
+            --ink: #17211f;
+            --paper: #fff8eb;
+            --accent: #d9541e;
+            --accent-dark: #8c2f12;
+            --mint: #b6dbc7;
+            --line: rgba(23, 33, 31, 0.18);
+            --shadow: 0 22px 60px rgba(23, 33, 31, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            padding: 32px;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(182, 219, 199, 0.9), transparent 32%),
+                radial-gradient(circle at 80% 10%, rgba(217, 84, 30, 0.18), transparent 30%),
+                linear-gradient(135deg, #fff8eb 0%, #f1dfbd 100%);
+        }
+
+        main {
+            width: min(920px, 100%);
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .intro,
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            background: rgba(255, 248, 235, 0.78);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+        }
+
+        .intro {
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .intro::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            right: -70px;
+            bottom: -70px;
+            border-radius: 999px;
+            background: var(--mint);
+            opacity: 0.9;
+        }
+
+        .eyebrow {
+            margin: 0 0 16px;
+            font: 700 12px/1.2 Verdana, sans-serif;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent-dark);
+        }
+
+        h1 {
+            margin: 0;
+            max-width: 9ch;
+            font-size: clamp(48px, 8vw, 82px);
+            line-height: 0.88;
+            letter-spacing: -0.06em;
+        }
+
+        .intro p {
+            max-width: 34ch;
+            margin: 28px 0 0;
+            font: 17px/1.6 Verdana, sans-serif;
+        }
+
+        .panel {
+            padding: 28px;
+        }
+
+        form {
+            display: grid;
+            gap: 16px;
+        }
+
+        label {
+            display: grid;
+            gap: 8px;
+            font: 700 13px/1.2 Verdana, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 15px 16px;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.62);
+            font: 17px/1.4 Verdana, sans-serif;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(217, 84, 30, 0.13);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 14px 18px;
+            color: white;
+            background: var(--accent);
+            font: 700 14px/1 Verdana, sans-serif;
+            cursor: pointer;
+            transition: transform 160ms ease, background 160ms ease;
+        }
+
+        button.secondary {
+            color: var(--accent-dark);
+            background: white;
+            border: 1px solid rgba(140, 47, 18, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: var(--accent-dark);
+        }
+
+        button.secondary:hover {
+            color: white;
+        }
+
+        .result {
+            margin-top: 22px;
+            min-height: 128px;
+            border-radius: 22px;
+            padding: 18px;
+            background: var(--ink);
+            color: var(--paper);
+            font: 15px/1.6 Consolas, "Courier New", monospace;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 18px;
+            }
+
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .intro,
+            .panel {
+                border-radius: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <section class="intro">
+        <div>
+            <p class="eyebrow">Spring Boot Frontend</p>
+            <h1>Input Output</h1>
+            <p>Submit a name and message. The Java controller receives it, processes it, and sends JSON back to this page.</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <form id="basicForm">
+            <label>
+                Name
+                <input id="name" name="name" type="text" placeholder="Enter your name" autocomplete="name">
+            </label>
+
+            <label>
+                Message
+                <textarea id="message" name="message" placeholder="Type something to send to Spring Boot"></textarea>
+            </label>
+
+            <div class="actions">
+                <button type="submit">Send POST Input</button>
+                <button class="secondary" type="button" id="helloButton">Test GET Hello</button>
+            </div>
+        </form>
+
+        <pre class="result" id="result">Response output will appear here.</pre>
+    </section>
+</main>
+
+<script>
+    const form = document.querySelector("#basicForm");
+    const helloButton = document.querySelector("#helloButton");
+    const result = document.querySelector("#result");
+
+    function showResponse(data) {
+        result.textContent = JSON.stringify(data, null, 2);
+    }
+
+    function showError(error) {
+        result.textContent = "Request failed:\n" + error.message;
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+            name: document.querySelector("#name").value,
+            message: document.querySelector("#message").value
+        };
+
+        try {
+            const response = await fetch("/api/basic/echo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            showResponse(await response.json());
+        } catch (error) {
+            showError(error);
+        }
+    });
+
+    helloButton.addEventListener("click", async () => {
+        const name = document.querySelector("#name").value || "Student";
+
+        try {
+            const response = await fetch("/api/basic/hello?name=" + encodeURIComponent(name));
+            showResponse(await response.json());
+        } catch (error) {
+            showError(error);
+        }
+    });
+</script>
+</body>
+</html>
